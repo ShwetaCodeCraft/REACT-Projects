@@ -18,7 +18,7 @@ function InputBox({
     
     className = "",          //Additional CSS classes for custom styling
 }) {
-   const amountInputId = useId()
+   const amountInputId = useId();
 
     return (
         /*className: Allows passing additional custom styles via props.
