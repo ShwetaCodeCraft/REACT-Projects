@@ -1,14 +1,26 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 
 function App() {
-  const [length, setLength] = useState(8);
-  const [numAllowed, setNumAllowed] = useState(false) ;
-  const [charAllowed, setCharAllowed] = useState(false);
-  const [ password , setPassword] = useState("");
+  const [length, setLength] = useState(8); //Controls the length of the generated password, defaulting to 8.
+  const [numAllowed, setNumAllowed] = useState(false) ; // A boolean determining if numbers (0123456789) should be included.
+  const [charAllowed, setCharAllowed] = useState(false); // A boolean determining if special characters (!@#$%^&*_) should be included.
+  const [ password , setPassword] = useState(""); //Stores the currently generated password.
 
   //useRef hook
-  const passwordRef = useRef(null)
+  const passwordRef = useRef(null) // A useRef hook that references the password input for copying the password to the clipboard.
   
+
+  /*passwordGenerator:
+
+     Uses useCallback to create a memoized function that generates a random password.
+
+     Constructs a character pool (str) based on the user's settings for numbers and special characters.
+
+     Randomly selects characters from the pool for the specified length.
+
+     Updates the password state. */
+
+
   const passwordGenerator = useCallback(() => {
     let pass = ""
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -25,12 +37,17 @@ function App() {
   }
   ,[length, numAllowed, charAllowed, setPassword])
   
-
+  /* copyPasswordToClipboard:
+  Selects and copies the current password to the clipboard using navigator.clipboard.writeText. */
+  
   const copyPasswordToClipboard = useCallback(()=>{
     passwordRef.current?.select();
     passwordRef.current?.setSelectionRange(0, 100);
     window.navigator.clipboard.writeText(password)
   }, [password])
+   
+  //useEffect Hook:Automatically calls passwordGenerator whenever length, numAllowed, or charAllowed changes, ensuring the password stays up-to-date.
+
 
   useEffect (() => {passwordGenerator()}, 
   [length,numAllowed,charAllowed,passwordGenerator])
