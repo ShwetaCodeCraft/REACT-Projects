@@ -35,7 +35,7 @@ function App() {
      setPassword(pass)
 
   }
-  ,[length, numAllowed, charAllowed, setPassword])
+  ,[length, numAllowed, charAllowed, setPassword]);
   
   /* copyPasswordToClipboard:
   Selects and copies the current password to the clipboard using navigator.clipboard.writeText. */
